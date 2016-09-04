@@ -1,0 +1,25 @@
+#
+# Import GBIF data into MongoDB 
+#
+# Using GNU make do:
+# make -f tools/import host=<host> db=<db-name> collection=<collection-name> file=<occurences-file-path>
+#
+
+.PHONY = import
+.DEFAULT = import
+
+import:
+	# import the data, database and collection will be created if necessary
+	# if the collection already exists, the data will be appended
+	mongoimport --host ${host} --db ${db} --collection ${collection} --file ${file} --headerline --type tsv --ignoreBlanks 
+	
+	# add some indexes
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { decimallongitude :  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { decimallatitude :  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { kingdom:  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { phylum :  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { class :  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { order :  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { family :  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { genus :  true } )"
+	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { species :  true } )"

@@ -1,0 +1,20 @@
+#
+# Run all tests
+#
+
+.PHONY: unittest green
+.DEFAULT_GOAL := unittest
+
+#
+# Run all test using the default test runner
+#
+unittest:
+	python -m unittest discover -s test -p Test*.py
+	
+
+#
+# Run all test using the "green" test runner
+# see: https://github.com/CleanCut/green/blob/master/cli-options.txt
+#
+green:
+	green -vvv --run-coverage -u Test*.py  -p Test*.py test
