@@ -9,14 +9,26 @@ Most of this can be done using plain Bash. However, my long-term goal is to auto
 * Mongo DB
 
 ## Import GBIF occurence data into a Mongo database
-Download GBIF occurence data as .csv. Using GNU make, do:
+1. Download GBIF occurence data as .csv. 
+2. Using GNU make, do:
 
 ```bash
-make -f tools/import host=<host> db=<db-name> collection=<collection-name> file=<occurences-file-path>
+make -f tools/build import host=<host> db=<db-name> collection=<collection-name> file=<occurences-file-path>
 ```
 
+## TODO: Measure taxonomic diversity 
+There are several possible definitions of taxonomic diversity. The simplest definition is the number of species within a region (species richness).
+To create a spreadsheet with species count per taxon grade, do:
+1. Download GBIF occurence data as .csv. 
+2. Import the data into the local Mongo database as shown above.
+3. Using GNU make, do:
+```bash
+make -f tools/build diversity output=<csv-file-path>
+```
+This will create a .csv file with species count per taxon grade.
+
 ## Run tests
-To run all tests, using GNU make do:
+To run all tests, start mongo and then using GNU make do:
 
 ```bash
 make -f tools/test

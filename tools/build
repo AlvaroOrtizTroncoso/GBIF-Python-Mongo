@@ -5,9 +5,10 @@
 # make -f tools/import host=<host> db=<db-name> collection=<collection-name> file=<occurences-file-path>
 #
 
-.PHONY = import
+.PHONY = import diversity
 .DEFAULT = import
 
+# Import GBIF occurence data into a Mongo database
 import:
 	# import the data, database and collection will be created if necessary
 	# if the collection already exists, the data will be appended
@@ -23,3 +24,8 @@ import:
 	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { family :  true } )"
 	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { genus :  true } )"
 	mongo --host ${host} ${db} --eval "db.${collection}.ensureIndex( { species :  true } )"
+
+
+# Create a spreadsheet with species count per taxon grade
+diversity:
+	
